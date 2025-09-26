@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mom Game: Midnight Mayhem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mom-game.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="game-shell">
+        <header class="hud">
+            <div class="stat">⏱️ Time: <span id="timeStat">90</span>s</div>
+            <div class="stat">⭐ Score: <span id="scoreStat">0</span></div>
+            <div class="stat">🍲 Dish: <span id="dishStat">0%</span></div>
+            <div class="stat room-indicator">🚪 Room: <span id="roomStat">Bedroom</span></div>
+        </header>
+
+        <div class="objective" id="objective">
+            Kids storm in when the timer hits zero. Finish dinner before then!
+        </div>
+
+        <main class="viewport">
+            <section class="room bedroom active" id="bedroomScene">
+                <div class="room-title">Bedroom</div>
+                <div class="pixel-window"></div>
+                <div class="pixel-bed">
+                    <div class="baby" id="babySprite"></div>
+                </div>
+                <div class="floor-detail"></div>
+                <div class="room-alert" id="bedroomAlert"></div>
+            </section>
+
+            <section class="room kitchen" id="kitchenScene">
+                <div class="room-title">Kitchen</div>
+                <div class="counter">
+                    <div class="stove">
+                        <div class="pot" id="potSprite"></div>
+                        <div class="burner-glow" id="burnerGlow"></div>
+                    </div>
+                    <div class="cat-shelf">
+                        <div class="vase" id="vaseSprite"></div>
+                        <div class="cat" id="catSprite"></div>
+                    </div>
+                </div>
+                <div class="room-alert" id="kitchenAlert"></div>
+            </section>
+        </main>
+
+        <aside class="command-panel">
+            <h2>Controls</h2>
+            <ul>
+                <li>⬅️ / ➡️ — Switch rooms</li>
+                <li>Space — Handle urgent task</li>
+                <li>S — Stir the stew when in the kitchen</li>
+            </ul>
+            <h2>Status Lights</h2>
+            <div class="status-lights">
+                <div class="light" id="babyLight">👶 Sleeping</div>
+                <div class="light" id="potLight">🔥 Simmering</div>
+                <div class="light" id="catLight">🐈 Lounging</div>
+            </div>
+        </aside>
+
+        <section class="event-feed" id="eventFeed"></section>
+
+        <div class="overlay" id="introOverlay">
+            <div class="overlay-card">
+                <h1>Mom Game: Midnight Mayhem</h1>
+                <p>
+                    It&apos;s 6:15pm, the baby is supposed to be sleeping, the dinner needs stirring, and the cat has other plans.
+                    Keep everyone safe, finish the stew before the kids barrel home, and rack up points for multitasking mastery!
+                </p>
+                <ul>
+                    <li>Check on the baby when she starts crawling or crying.</li>
+                    <li>Tamp down boiling stew and shoo the cat before disaster strikes.</li>
+                    <li>Stir the pot with <strong>S</strong> to build up the dinner meter.</li>
+                    <li>Finish the dish (100%) before the timer expires. If not, you lose when the kids arrive!</li>
+                </ul>
+                <button id="startButton">Start the chaos</button>
+            </div>
+        </div>
+
+        <div class="overlay" id="gameOverOverlay" hidden>
+            <div class="overlay-card">
+                <h1 id="gameOverTitle">Shift Complete!</h1>
+                <p id="gameOverMessage"></p>
+                <button id="playAgainButton">Play again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="mom-game.js"></script>
+</body>
+</html>
