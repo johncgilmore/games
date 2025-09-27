@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mom Game: Midnight Mayhem</title>
+    <title>Mom Game: Afternoon Mayhem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -17,6 +17,9 @@
             <div class="stat">⭐ Score: <span id="scoreStat">0</span></div>
             <div class="stat">🍲 Dish: <span id="dishStat">0%</span></div>
             <div class="stat room-indicator">🚪 Room: <span id="roomStat">Bedroom</span></div>
+            <div class="stat audio-control">
+                <button id="muteButton" class="mute-btn">🔊</button>
+            </div>
         </header>
 
         <div class="objective" id="objective">
@@ -24,71 +27,106 @@
         </div>
 
         <main class="viewport">
-            <section class="room bedroom active" id="bedroomScene">
-                <div class="room-title">Bedroom</div>
-                <div class="pixel-window"></div>
-                <div class="pixel-bed">
-                    <div class="baby" id="babySprite"></div>
-                </div>
-                <div class="floor-detail"></div>
-                <div class="room-alert" id="bedroomAlert"></div>
-            </section>
-
-            <section class="room kitchen" id="kitchenScene">
-                <div class="room-title">Kitchen</div>
-                <div class="counter">
-                    <div class="stove">
-                        <div class="pot" id="potSprite"></div>
-                        <div class="burner-glow" id="burnerGlow"></div>
+            <div class="room-column">
+                <section class="room bedroom active" id="bedroomScene">
+                    <div class="room-title">Bedroom</div>
+                    <div class="pixel-window"></div>
+                    <div class="pixel-bed">
+                        <div class="baby" id="babySprite"></div>
                     </div>
-                    <div class="cat-shelf">
-                        <div class="vase" id="vaseSprite"></div>
-                        <div class="cat" id="catSprite"></div>
-                    </div>
-                </div>
-                <div class="room-alert" id="kitchenAlert"></div>
-            </section>
-        </main>
+                    <div class="floor-detail"></div>
+                    <div class="room-alert" id="bedroomAlert"></div>
+                    <div class="room-alert" id="bedroomPenalty"></div>
+                </section>
 
-        <aside class="command-panel">
-            <h2>Controls</h2>
-            <ul>
-                <li>⬅️ / ➡️ — Switch rooms</li>
-                <li>Space — Handle urgent task</li>
-                <li>S — Stir the stew when in the kitchen</li>
-            </ul>
-            <h2>Status Lights</h2>
-            <div class="status-lights">
-                <div class="light" id="babyLight">👶 Sleeping</div>
-                <div class="light" id="potLight">🔥 Simmering</div>
-                <div class="light" id="catLight">🐈 Lounging</div>
+                <section class="room kitchen" id="kitchenScene">
+                    <div class="room-title">Kitchen</div>
+                    <div class="counter">
+                        <div class="stove">
+                            <div class="pot" id="potSprite"></div>
+                            <div class="burner-glow" id="burnerGlow"></div>
+                            <div class="letter-prompt" id="letterPrompt"></div>
+                        </div>
+                        <div class="cat-shelf">
+                            <div class="vase" id="vaseSprite"></div>
+                            <div class="cat" id="catSprite"></div>
+                        </div>
+                    </div>
+                    <div class="ingredient-conveyor" id="ingredientConveyor"></div>
+                    <div class="room-alert" id="kitchenAlert"></div>
+                    <div class="room-alert" id="kitchenPenalty"></div>
+                </section>
+                <div class="kids-arrival" id="kidsArrival" hidden>
+                    <div class="door" id="kidsDoor"></div>
+                    <div class="kid k1"></div>
+                    <div class="kid k2"></div>
+                    <div class="kid k3"></div>
+                    <div class="kid k4"></div>
+                    <div class="backpack b1"></div>
+                    <div class="backpack b2"></div>
+                    <div class="backpack b3"></div>
+                </div>
             </div>
-        </aside>
+
+            <aside class="nav-column" id="navColumn">
+                <button id="navButton" class="nav-button">➡ Kitchen</button>
+            </aside>
+
+            <aside class="mechanics-column">
+                <h2>Controls</h2>
+                <ul>
+                    <li>⬅️ / ➡️ — Switch rooms</li>
+                    <li>Space — Handle urgent task</li>
+                    <li>Letters — Add ingredients when boiling</li>
+                </ul>
+                <button id="callDadButton" class="nav-button" style="margin-bottom:12px;">🗣️ Yell for Dad</button>
+                <h2>Status Lights</h2>
+                <div class="status-lights">
+                    <div class="light" id="babyLight">👶 Sleeping</div>
+                    <div class="light" id="potLight">🔥 Simmering</div>
+                    <div class="light" id="catLight">🐈 Lounging</div>
+                </div>
+                <h2>Stew</h2>
+                <div class="status-lights">
+                    <div class="light" id="stirTimer">🌀 Stir in: <span id="stirCountdown">4.0</span>s</div>
+                    <div class="light" id="letterCounter">🔤 Ingredients: <span id="lettersCount">0</span>/<span id="lettersTotal">30</span></div>
+                </div>
+            </aside>
+        </main>
 
         <section class="event-feed" id="eventFeed"></section>
 
-        <div class="overlay" id="introOverlay">
-            <div class="overlay-card">
-                <h1>Mom Game: Midnight Mayhem</h1>
+        <div class="overlay" id="gameOverlay">
+            <div class="overlay-card" id="introCard">
+                <h1>Mom Game: Afternoon Mayhem</h1>
                 <p>
-                    It&apos;s 6:15pm, the baby is supposed to be sleeping, the dinner needs stirring, and the cat has other plans.
-                    Keep everyone safe, finish the stew before the kids barrel home, and rack up points for multitasking mastery!
+                    It&apos;s 3:15pm, the baby is supposed to be napping, the dinner needs stirring, and the cat has other plans.
+                    Keep everyone safe, finish the stew before the kids barrel home from school, and rack up points for multitasking mastery!
                 </p>
                 <ul>
                     <li>Check on the baby when she starts crawling or crying.</li>
                     <li>Tamp down boiling stew and shoo the cat before disaster strikes.</li>
                     <li>Stir the pot with <strong>S</strong> to build up the dinner meter.</li>
-                    <li>Finish the dish (100%) before the timer expires. If not, you lose when the kids arrive!</li>
+                    <li>Finish the dish (100%) before the timer expires. If not, you lose when the kids arrive from school!</li>
                 </ul>
                 <button id="startButton">Start the chaos</button>
             </div>
-        </div>
-
-        <div class="overlay" id="gameOverOverlay" hidden>
-            <div class="overlay-card">
+            
+            <div class="overlay-card" id="gameOverCard" style="display: none;">
                 <h1 id="gameOverTitle">Shift Complete!</h1>
                 <p id="gameOverMessage"></p>
                 <button id="playAgainButton">Play again</button>
+            </div>
+        </div>
+        <div class="overlay" id="dadOverlay" hidden>
+            <div class="overlay-card">
+                <h1>Yell for Dad…</h1>
+                <div class="dad-roulette">
+                    <div class="option">Helps ✅</div>
+                    <div class="option">Makes it worse ❌</div>
+                    <div class="arrow" id="dadArrow">➤</div>
+                </div>
+                <p id="dadOutcomeText"></p>
             </div>
         </div>
     </div>
