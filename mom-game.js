@@ -204,6 +204,21 @@
         return !!state.movementLockedUntil && Date.now() < state.movementLockedUntil;
     }
 
+    function cancelActiveLetterChallenge() {
+        if (!state.letterActive) return;
+        state.letterActive = false;
+        state.letterChar = '';
+        if (state.letterTimer) {
+            clearTimeout(state.letterTimer);
+            state.letterTimer = null;
+        }
+        if (dom.letterPrompt) {
+            dom.letterPrompt.style.display = 'none';
+            dom.letterPrompt.textContent = '';
+        }
+        if (state.ingredientItemEl) { state.ingredientItemEl.remove(); state.ingredientItemEl = null; }
+    }
+
     // Debug: Check if all DOM elements are found
     console.log('DOM elements found:');
     console.log('gameOverlay:', dom.gameOverlay);
@@ -802,6 +817,9 @@
     function kidsArrive() {
         state.kidsArrived = true;
         if (!state.running) return;
+        // Freeze game state completely
+        state.running = false;
+        cancelActiveLetterChallenge();
         // Always show the kids popup and let the player click to get reviews
         triggerKidsAnimation();
     }
@@ -888,7 +906,9 @@
     }
 
     document.addEventListener('keydown', (event) => {
-        if (dom.gameOverlay.style.display !== 'none' && event.key === 'Enter') {
+        // Only allow Enter to start when intro card is visible
+        const introVisible = dom.gameOverlay && dom.introCard && dom.gameOverlay.style.display !== 'none' && dom.introCard.style.display !== 'none';
+        if (introVisible && event.key === 'Enter') {
             startGame();
             return;
         }
