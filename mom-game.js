@@ -313,13 +313,13 @@
     function switchRoom(direction) {
         if (!state.running) return;
         if (state.movementLockedUntil && Date.now() < state.movementLockedUntil) {
-            addFeed('You are tied up right now!');
+            addFeed('Busy!');
             return;
         }
         state.currentRoom = direction === 'left' ? 'bedroom' : 'kitchen';
         updateRoom();
         updateHUD();
-        addFeed(`You hustle to the ${state.currentRoom}.`);
+        addFeed(state.currentRoom === 'bedroom' ? 'To Bedroom!' : 'To Kitchen!');
     }
 
     function updateNavUI() {
@@ -336,7 +336,7 @@
         resetState();
         state.running = true;
         dom.gameOverlay.style.display = 'none';
-        addFeed('Shift started. Deep breaths!');
+        addFeed('Shift start.');
         updateObjective();
         tickTimer();
         scheduleBabyWake();
@@ -421,7 +421,7 @@
         updateSprites();
         positionBabyByStep();
         showAlert(dom.babyAlert, 'Baby is up! Space to scoop!');
-        addFeed('Baby flips over and starts crawling toward the edge!', 'alert');
+        addFeed('Baby crawling!', 'alert');
         audio.playBabyCry();
 
         // Crawl over ~6 seconds in steps
@@ -447,7 +447,7 @@
         state.babyCrawlStep = 0;
         positionBabyByStep();
         updateSprites();
-        addFeed('Baby snuggles back to sleep. Crisis averted.', 'success');
+        addFeed('Baby asleep.', 'success');
         changeScore(40);
         audio.playSuccess();
         scheduleBabyWake();
@@ -457,7 +457,7 @@
         if (state.babyState !== 'crawling') return;
         state.babyState = 'crying';
         updateSprites();
-        addFeed('You hear a wail! The baby almost tumbled.', 'alert');
+        addFeed('Baby crying!', 'alert');
         changeScore(-60);
         showAlert(dom.babyAlert, 'She needs a lullaby!');
 
@@ -465,7 +465,7 @@
         const timer = setTimeout(() => {
             state.babyState = 'sleeping';
             updateSprites();
-            addFeed('Baby finally drifts back to sleep. Phew.');
+            addFeed('Baby asleep.');
             scheduleBabyWake();
         }, 3500);
         state.babyTimers.push(timer);
@@ -492,7 +492,7 @@
         state.potState = 'boiling';
         updateSprites();
         showAlert(dom.kitchenAlert, 'Stir that stew!');
-        addFeed('The stew bubbles violently. Add ingredients!', 'alert');
+        addFeed('Pot boiling! Add ingredient!', 'alert');
         audio.playPotBoil();
         trySpawnLetter();
     }
@@ -501,7 +501,7 @@
         if (state.potState !== 'boiling') return;
         state.potState = 'simmering';
         updateSprites();
-        addFeed('You steady the stew with a heroic stir.', 'success');
+        addFeed('Stirred.', 'success');
         audio.playSuccess();
         endLetterChallenge(false);
         state.isOverdue = false;
@@ -510,7 +510,7 @@
 
     function burnDinner() {
         if (state.potState !== 'boiling') return;
-        addFeed('The stew is boiling over! Quality dropping!', 'alert');
+        addFeed('Food burning!', 'alert');
         state.dishProgress = Math.max(0, state.dishProgress - 1);
         state.soupQuality = Math.max(0, state.soupQuality - 1);
         updateHUD();
@@ -546,13 +546,13 @@
         state.catState = 'prowl';
         state.catRequiredKey = 'enter';
         updateSprites();
-        addFeed('Cat is on the prowl…', 'alert');
+        addFeed('Cat prowls…', 'alert');
         const prowlTimer = setTimeout(() => {
             if (state.catState !== 'prowl') return;
             state.catState = 'knocking';
             updateSprites();
             showAlert(dom.kitchenAlert, `Cat eyes the vase! Press Enter!`);
-            addFeed(`The cat bats at a vase. Press Enter to stop it.`, 'alert');
+            addFeed('Cat at vase! Enter!', 'alert');
             audio.playCatMeow();
             const timer = setTimeout(() => {
                 shatterVase();
@@ -566,7 +566,7 @@
         if (state.catState !== 'knocking') return;
         state.catState = 'idle';
         updateSprites();
-        addFeed('Cat begrudgingly curls up elsewhere.', 'success');
+        addFeed('Cat settled.', 'success');
         changeScore(25);
         audio.playSuccess();
         scheduleCatChaos();
@@ -576,13 +576,13 @@
         if (state.catState !== 'knocking') return;
         state.catState = 'broken';
         updateSprites();
-        addFeed('Crash! Glass everywhere.', 'alert');
+        addFeed('Vase shattered!', 'alert');
         changeScore(-40);
         applyKitchenPenalty(3);
         const timer = setTimeout(() => {
             state.catState = 'idle';
             updateSprites();
-            addFeed('You sweep up the shards, muttering.');
+            addFeed('Cleaned up.');
             scheduleCatChaos();
         }, 3200);
         state.catTimers.push(timer);
@@ -633,10 +633,10 @@
             } else if (state.babyState === 'crying') {
                 state.babyState = 'sleeping';
                 updateSprites();
-                addFeed('You scoop her up and hum the sleepy song.', 'success');
+                addFeed('You soothe her.', 'success');
                 scheduleBabyWake();
             } else {
-                addFeed('Baby snores softly. You tuck the blanket in.');
+                addFeed('Baby sleeping.');
                 changeScore(5);
             }
         } else {
@@ -644,7 +644,7 @@
                 // Key requirement handled on keydown, but space also resolves
                 if (state.catRequiredKey === 'space') shooCat();
             } else {
-                addFeed('Kitchen looks good—for now.');
+                addFeed('Kitchen clear.');
             }
         }
     }
@@ -652,7 +652,7 @@
     function stirPot() {
         if (!state.running || state.currentRoom !== 'kitchen') return;
         if (state.potState === 'burning') {
-            addFeed('Too smoky to stir! Hit the space bar first.', 'alert');
+            addFeed('Too smoky! Space first.', 'alert');
             return;
         }
         // Stir only resets overdue and simmers; dish % now only from letters
@@ -664,12 +664,12 @@
         audio.playStir();
         if (!state.dishReady && state.dishProgress >= 100) {
             state.dishReady = true;
-            addFeed('Dinner is done! Kids will be impressed.', 'success');
+            addFeed('Dinner done!', 'success');
             changeScore(120);
             audio.playSuccess();
             updateObjective();
         } else {
-            addFeed('You stir the stew. Heat settles.');
+            addFeed('Stirred.');
         }
     }
 
@@ -689,7 +689,11 @@
         if (state.letterActive) return; // serialize
         if (state.lettersSpawned >= state.maxLetters) return;
         state.lettersSpawned += 1;
-        const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        // Pick a letter excluding 'S' (reserved for stirring)
+        let letter = '';
+        do {
+            letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        } while (letter === 'S');
         state.letterChar = letter;
         state.letterActive = true;
         const item = document.createElement('div');
@@ -703,7 +707,7 @@
         state.letterTimer = setTimeout(() => {
             if (state.letterActive) {
                 state.soupQuality = Math.max(0, state.soupQuality - 8);
-                addFeed('Missed ingredient on the belt!', 'alert');
+                addFeed('Missed ingredient!', 'alert');
                 endLetterChallenge(true);
             }
             if (state.ingredientItemEl) { state.ingredientItemEl.remove(); state.ingredientItemEl = null; }
@@ -739,7 +743,7 @@
         if (ch.toLowerCase() === 's') return;
         const pressed = ch.toUpperCase();
         if (pressed === state.letterChar) {
-            addFeed(`Ingredient ${pressed} added just in time!`, 'success');
+            addFeed(`Added ${pressed}!`, 'success');
             changeScore(15);
             state.dishProgress = Math.min(100, state.dishProgress + 10);
             updateHUD();
@@ -790,13 +794,8 @@
     function kidsArrive() {
         state.kidsArrived = true;
         if (!state.running) return;
-        if (state.dishReady) {
-            triggerKidsAnimation();
-            setTimeout(judgeDinner, 2000);
-        } else {
-            triggerKidsAnimation();
-            setTimeout(() => loseGame('The kids burst in, backpacks flying. Dinner isn\'t ready.'), 2000);
-        }
+        // Always show the kids popup and let the player click to get reviews
+        triggerKidsAnimation();
     }
 
     function triggerKidsAnimation() {
@@ -847,7 +846,7 @@
         }
         state.running = false;
         dom.gameOverTitle.textContent = 'Judge\'s Table';
-        dom.gameOverMessage.textContent = `${remark} Final score: ${state.score}.`;
+        dom.gameOverMessage.textContent = `${remark}\nFinal score: ${state.score}.`;
         showGameOverScreen();
     }
 
@@ -862,15 +861,7 @@
         console.log('Game over screen shown');
     }
 
-    function loseGame(message) {
-        console.log('Game lost! Message:', message, 'Final score:', state.score);
-        state.running = false;
-        dom.gameOverTitle.textContent = 'Chaos wins this round…';
-        dom.gameOverMessage.textContent = `${message} Final score: ${state.score}.`;
-        audio.playGameOver();
-        showGameOverScreen();
-        console.log('Game over screen shown');
-    }
+    // Removed auto-lose path in favor of kids popup → reviews flow
 
     function showGameOverScreen() {
         dom.introCard.style.display = 'none';
@@ -958,14 +949,27 @@
             dom.dadArrow.style.left = helps ? '25%' : '75%';
             if (helps) {
                 dom.dadOutcomeText.textContent = 'He helps! Baby is chill for 20s.';
-                addFeed('Dad swoops in—with snacks and swaddles. Crisis abates.', 'success');
+                addFeed('Dad helps!', 'success');
                 state.babySuppressedUntil = Date.now() + 20000;
                 scheduleBabyWake();
                 setTimeout(() => { dom.dadOverlay.hidden = true; dom.dadOverlay.style.display = 'none'; }, 1000);
             } else {
-                dom.dadOutcomeText.textContent = 'Oh no—made it worse!';
-                addFeed('Dad tries… and chaos compounds.', 'alert');
-                setTimeout(() => { dom.dadOverlay.hidden = true; dom.dadOverlay.style.display = 'none'; loseGame('Baby becomes inconsolable.'); }, 800);
+                const reasons = [
+                    'He put the lid on backwards. Steam everywhere.',
+                    'He tried to soothe with a kazoo. Why?',
+                    'He microwaved a metal spoon. Sparks!',
+                    'He offered the cat a bath. Chaos.',
+                    'He yelled “enhance!” at the stove.',
+                ];
+                const reason = reasons[Math.floor(Math.random() * reasons.length)];
+                dom.dadOutcomeText.textContent = `Oh no—made it worse! ${reason}`;
+                addFeed('Dad made it worse. Frozen 7s.', 'alert');
+                // 7s frustration freeze
+                const freezeSeconds = 7;
+                // Prefer to lock in the current room; show a visible penalty bubble
+                const bubble = state.currentRoom === 'kitchen' ? dom.kitchenPenalty : dom.bedroomPenalty;
+                lockMovement(freezeSeconds, bubble, 'Frustrated beyond words', freezeSeconds);
+                setTimeout(() => { dom.dadOverlay.hidden = true; dom.dadOverlay.style.display = 'none'; }, 1200);
             }
         }, settleMs);
         state.timers.push(timeout);

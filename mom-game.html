@@ -27,6 +27,8 @@
         </div>
 
         <main class="viewport">
+            <section class="event-feed" id="eventFeed"></section>
+        
             <div class="room-column">
                 <section class="room bedroom active" id="bedroomScene">
                     <div class="room-title">Bedroom</div>
@@ -76,7 +78,9 @@
                 <h2>Controls</h2>
                 <ul>
                     <li>⬅️ / ➡️ — Switch rooms</li>
-                    <li>Space — Handle urgent task</li>
+                    <li>Return — Stop cat with the vase</li>
+                    <li>Space — Scoop/soothe baby</li>
+                    <li>S — Stir the pot</li>
                     <li>Letters — Add ingredients when boiling</li>
                 </ul>
                 <button id="callDadButton" class="nav-button" style="margin-bottom:12px;">🗣️ Yell for Dad</button>
@@ -94,7 +98,7 @@
             </aside>
         </main>
 
-        <section class="event-feed" id="eventFeed"></section>
+        
 
         <div class="overlay" id="gameOverlay">
             <div class="overlay-card" id="introCard">
