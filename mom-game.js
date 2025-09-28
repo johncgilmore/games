@@ -200,6 +200,10 @@
         dadOutcomeText: document.getElementById('dadOutcomeText'),
     };
 
+    function isMovementLocked() {
+        return !!state.movementLockedUntil && Date.now() < state.movementLockedUntil;
+    }
+
     // Debug: Check if all DOM elements are found
     console.log('DOM elements found:');
     console.log('gameOverlay:', dom.gameOverlay);
@@ -563,6 +567,7 @@
     }
 
     function shooCat() {
+        if (isMovementLocked()) return;
         if (state.catState !== 'knocking') return;
         state.catState = 'idle';
         updateSprites();
@@ -627,6 +632,7 @@
 
     function handleAction() {
         if (!state.running) return;
+        if (isMovementLocked()) { addFeed('Busy!'); return; }
         if (state.currentRoom === 'bedroom') {
             if (state.babyState === 'crawling') {
                 sootheBaby();
@@ -651,6 +657,7 @@
 
     function stirPot() {
         if (!state.running || state.currentRoom !== 'kitchen') return;
+        if (isMovementLocked()) { addFeed('Busy!'); return; }
         if (state.potState === 'burning') {
             addFeed('Too smoky! Space first.', 'alert');
             return;
@@ -738,6 +745,7 @@
 
     function handleLetterPress(ch) {
         if (!state.running) return;
+        if (isMovementLocked()) return;
         if (!state.letterActive) return;
         // Ignore S for ingredient input; S is reserved for stirring only
         if (ch.toLowerCase() === 's') return;
