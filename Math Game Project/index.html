@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comic & Film Math Lab</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <h1>Comic &amp; Film Math Lab</h1>
+        <p>
+          Built from John &amp; Andrew's comic-conversation history, this lab
+          crafts fresh 7th grade Common Core-aligned problems that feel like
+          you're in the writer's room for the next blockbuster.
+        </p>
+        <div class="mode-toggle" role="group" aria-label="Mode selector">
+          <button id="teacherMode" class="toggle-btn active">Teacher Studio</button>
+          <button id="studentMode" class="toggle-btn">Student Quest</button>
+        </div>
+      </div>
+      <div class="hero__badge">Grades 7 • CCSS • Real-World Comics &amp; Film</div>
+    </header>
+
+    <main>
+      <section class="panel" id="teacherPanel">
+        <h2>Teacher Studio</h2>
+        <p class="panel__intro">
+          Generate standards-tagged prompts plus teaching moves that anchor
+          ratios, algebra, geometry, and statistics in comic publishing and film
+          production scenarios.
+        </p>
+        <form class="controls" aria-label="Teacher controls">
+          <label class="control">
+            <span>Focus Area</span>
+            <select id="teacherDomain">
+              <option value="all">All Strands</option>
+              <option value="7.RP">Ratios &amp; Percents (7.RP)</option>
+              <option value="7.EE">Expressions &amp; Equations (7.EE)</option>
+              <option value="7.NS">Number System (7.NS)</option>
+              <option value="7.G">Geometry (7.G)</option>
+              <option value="7.SP">Statistics &amp; Probability (7.SP)</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>Include Answer Reveal</span>
+            <input type="checkbox" id="teacherReveal" checked />
+          </label>
+        </form>
+        <button class="generate" id="generateTeacher">Generate Problem</button>
+
+        <article class="card" id="teacherOutput" aria-live="polite"></article>
+      </section>
+
+      <section class="panel panel--alt" id="studentPanel" hidden>
+        <h2>Student Quest</h2>
+        <p class="panel__intro">
+          Press play to unlock a mission set inside the comic vault or on a
+          movie set. Every challenge blends Andrew's real-world math moments with
+          cinematic adventures.
+        </p>
+        <button class="generate" id="generateStudent">Start a Mission</button>
+        <article class="card" id="studentOutput" aria-live="polite"></article>
+      </section>
+
+      <section class="reference">
+        <h2>Why it Works</h2>
+        <div class="reference__grid">
+          <div>
+            <h3>Anchored in Conversation</h3>
+            <p>
+              Every scenario pulls from John &amp; Andrew's actual comic habits:
+              subscription discounts, reimbursements, horror marathons, and now
+              film set scheduling.
+            </p>
+          </div>
+          <div>
+            <h3>Common Core Ready</h3>
+            <p>
+              Each problem is tagged with the precise 7th grade CCSS domain,
+              strand, and a quick note on the mathematical move students make.
+            </p>
+          </div>
+          <div>
+            <h3>Extend the Learning</h3>
+            <p>
+              Teacher tips include extension prompts, representation ideas, or
+              quick formative checks tied to the same scenario.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Created for Andrew's comic &amp; film fandom • Powered by authentic math storytelling.</p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
