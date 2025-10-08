@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comics & Film Math Studio</title>
+  <title>Teacher Comics Math Prompter</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,32 +11,18 @@
 </head>
 <body>
   <header class="hero">
-    <div class="hero__text">
-      <h1>Comics &amp; Film Math Studio</h1>
-      <p class="tagline">Generate standards-aligned math challenges that speak Andrew's language.</p>
-      <p class="subtagline">Pick your focus, connect to real production and comic book decisions, and get a ready-to-teach prompt with solutions.</p>
-    </div>
-    <div class="hero__badge">
-      <span class="badge__label">Aligned to</span>
-      <span class="badge__value">Grade 7 CCSS-M</span>
-    </div>
+    <h1>Teacher Comics Math Prompter</h1>
+    <p class="tagline">Quick CCSS-friendly story problems that match Andrew's comic know-how.</p>
   </header>
 
   <main>
     <section class="controls">
       <div class="control-group">
-        <label for="audience">Audience</label>
-        <select id="audience">
-          <option value="teacher">Teacher Planning Mode</option>
-          <option value="student">Player Mode</option>
-        </select>
-      </div>
-      <div class="control-group">
         <label for="context">Universe</label>
         <select id="context">
-          <option value="all">Comics &amp; Film</option>
+          <option value="all">Comics &amp; Film Club</option>
           <option value="comics">Comic Books</option>
-          <option value="film">Film Production</option>
+          <option value="film">Film Projects</option>
         </select>
       </div>
       <div class="control-group">
@@ -49,20 +35,20 @@
           <option value="stats">Statistics &amp; Probability (7.SP)</option>
         </select>
       </div>
-      <button id="generate" class="primary">Generate a Fresh Challenge</button>
+      <button id="generate" class="primary">Generate Example</button>
     </section>
 
     <section class="output" aria-live="polite">
       <article class="card" id="problem-card">
         <header class="card__header">
           <div>
-            <h2 id="problem-title">Pick a universe to get started</h2>
+            <h2 id="problem-title">Choose a topic to get started</h2>
             <p id="problem-context" class="card__context"></p>
           </div>
           <div class="standards" id="standard-tags"></div>
         </header>
         <div class="card__body">
-          <p id="problem-text" class="card__prompt">Use the controls above to curate a challenge.</p>
+          <p id="problem-text" class="card__prompt">Use the controls above to pull a clean prompt.</p>
         </div>
         <footer class="card__footer" id="solution-area">
           <div class="solution" id="solution-box"></div>
@@ -71,15 +57,9 @@
       </article>
 
       <aside class="card research" id="research-card">
-        <h3>Teacher Toolkit</h3>
-        <p>Each challenge includes:</p>
-        <ul>
-          <li><strong>Why it matters</strong> in comics or filmmaking.</li>
-          <li><strong>Standards map</strong> with CCSS identifiers and skill strands.</li>
-          <li><strong>Solution strategy</strong> for quick checks or answer keys.</li>
-          <li><strong>Extension prompts</strong> to keep curious students digging.</li>
-        </ul>
-        <p class="small">Research sources: CCSS Grade 7 domains 7.RP, 7.NS, 7.EE, 7.SP; industry interviews with comic shop managers and indie filmmakers; production budgeting guides.</p>
+        <h3>Quick Teacher Notes</h3>
+        <p>Each card gives a prompt, answer path, and a short extension.</p>
+        <p class="small">Anchored to CCSS Grade 7 strands: 7.RP, 7.NS, 7.EE, 7.SP.</p>
       </aside>
     </section>
 
@@ -90,7 +70,7 @@
   </main>
 
   <footer class="footer">
-    <p>Built for Andrew with authentic comic shop math and indie film production decisions.</p>
+    <p>Built for Andrew's teacher team. Comic inside jokes stay; wording stays clear.</p>
   </footer>
 
   <script src="app.js"></script>
