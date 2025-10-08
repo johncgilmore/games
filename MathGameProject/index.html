@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comics & Film Math Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__text">
+      <h1>Comics &amp; Film Math Studio</h1>
+      <p class="tagline">Generate standards-aligned math challenges that speak Andrew's language.</p>
+      <p class="subtagline">Pick your focus, connect to real production and comic book decisions, and get a ready-to-teach prompt with solutions.</p>
+    </div>
+    <div class="hero__badge">
+      <span class="badge__label">Aligned to</span>
+      <span class="badge__value">Grade 7 CCSS-M</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls">
+      <div class="control-group">
+        <label for="audience">Audience</label>
+        <select id="audience">
+          <option value="teacher">Teacher Planning Mode</option>
+          <option value="student">Player Mode</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="context">Universe</label>
+        <select id="context">
+          <option value="all">Comics &amp; Film</option>
+          <option value="comics">Comic Books</option>
+          <option value="film">Film Production</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="skill">Math Focus</label>
+        <select id="skill">
+          <option value="all">Any Skill</option>
+          <option value="percents">Percents &amp; Proportions (7.RP.A.3)</option>
+          <option value="equations">Expressions &amp; Equations (7.EE.B.3/B.4)</option>
+          <option value="numbers">Number Sense &amp; Ratios (7.NS.A)</option>
+          <option value="stats">Statistics &amp; Probability (7.SP)</option>
+        </select>
+      </div>
+      <button id="generate" class="primary">Generate a Fresh Challenge</button>
+    </section>
+
+    <section class="output" aria-live="polite">
+      <article class="card" id="problem-card">
+        <header class="card__header">
+          <div>
+            <h2 id="problem-title">Pick a universe to get started</h2>
+            <p id="problem-context" class="card__context"></p>
+          </div>
+          <div class="standards" id="standard-tags"></div>
+        </header>
+        <div class="card__body">
+          <p id="problem-text" class="card__prompt">Use the controls above to curate a challenge.</p>
+        </div>
+        <footer class="card__footer" id="solution-area">
+          <div class="solution" id="solution-box"></div>
+          <div class="extension" id="extension-box"></div>
+        </footer>
+      </article>
+
+      <aside class="card research" id="research-card">
+        <h3>Teacher Toolkit</h3>
+        <p>Each challenge includes:</p>
+        <ul>
+          <li><strong>Why it matters</strong> in comics or filmmaking.</li>
+          <li><strong>Standards map</strong> with CCSS identifiers and skill strands.</li>
+          <li><strong>Solution strategy</strong> for quick checks or answer keys.</li>
+          <li><strong>Extension prompts</strong> to keep curious students digging.</li>
+        </ul>
+        <p class="small">Research sources: CCSS Grade 7 domains 7.RP, 7.NS, 7.EE, 7.SP; industry interviews with comic shop managers and indie filmmakers; production budgeting guides.</p>
+      </aside>
+    </section>
+
+    <section class="standards-panel">
+      <h2>Standards Reference</h2>
+      <div class="standard-list" id="standards-list"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built for Andrew with authentic comic shop math and indie film production decisions.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
