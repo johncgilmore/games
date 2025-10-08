@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comic & Film Math Missions</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div class="hero__text">
+          <p class="hero__badge">7th Grade Common Core • Comics & Film</p>
+          <h1>Comic &amp; Film Math Missions</h1>
+          <p class="hero__lead">
+            Andrew, suit up! Each mission blends your comic-book fandom and
+            filmmaking dreams with the exact Common Core math skills your
+            teachers care about.
+          </p>
+          <button id="mission-button" class="cta">Launch a New Mission</button>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <div class="panel panel--one"></div>
+          <div class="panel panel--two"></div>
+          <div class="panel panel--three"></div>
+        </div>
+      </header>
+
+      <section class="mission" aria-live="polite">
+        <div class="mission__header">
+          <h2 id="mission-title">Tap “Launch a New Mission” to get started</h2>
+          <p id="mission-standard" class="mission__standard"></p>
+        </div>
+        <p id="mission-context" class="mission__context"></p>
+        <p id="mission-question" class="mission__question"></p>
+
+        <form id="answer-form" class="answer" novalidate>
+          <label class="answer__label" for="answer-input">Your answer</label>
+          <div class="answer__controls">
+            <input
+              id="answer-input"
+              name="answer"
+              type="text"
+              autocomplete="off"
+              inputmode="decimal"
+              placeholder="Type your calculation here"
+              required
+            />
+            <button type="submit" class="cta cta--small">Check Answer</button>
+          </div>
+          <p class="answer__tip" id="answer-tip"></p>
+        </form>
+
+        <div id="feedback" class="feedback" hidden>
+          <p id="feedback-result" class="feedback__result"></p>
+          <p id="feedback-explanation" class="feedback__explanation"></p>
+        </div>
+      </section>
+
+      <section class="intel">
+        <div class="intel__card">
+          <h3>Why these missions matter</h3>
+          <p>
+            Every scenario was built straight from Common Core Grade 7 math
+            standards, so you can prove to teachers that you’re mastering the
+            exact skills they’re grading. The twist? All the math lives inside
+            the worlds you already love—horror comics, Comic Con hustle, and
+            indie film production.
+          </p>
+          <ul id="intel-list" class="intel__list"></ul>
+        </div>
+        <div class="intel__card intel__card--log">
+          <h3>Mission log</h3>
+          <ol id="mission-log" class="mission-log"></ol>
+        </div>
+      </section>
+    </main>
+
+    <template id="log-entry-template">
+      <li>
+        <p class="mission-log__title"></p>
+        <p class="mission-log__summary"></p>
+      </li>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
