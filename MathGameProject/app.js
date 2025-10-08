@@ -228,15 +228,33 @@ Can you buy three items without going over budget? Which two-item combos fit bes
         }
       }
 
-      const threeItemTotal = roundTo(items[0].price + items[1].price + items[2].price);
-      const canBuyThree = threeItemTotal <= budget;
+      let cheapestThreeTotal = Infinity;
+      for (let i = 0; i < items.length; i++) {
+        for (let j = i + 1; j < items.length; j++) {
+          for (let k = j + 1; k < items.length; k++) {
+            const total = roundTo(items[i].price + items[j].price + items[k].price);
+            if (total < cheapestThreeTotal) {
+              cheapestThreeTotal = total;
+            }
+          }
+        }
+      }
 
-      const comboList = combos
-        .sort((a, b) => b.leftover - a.leftover)
-        .map(combo => `${combo.pair}: ${toCurrency(combo.total)} (leftover ${toCurrency(combo.leftover)})`);
+      const canBuyThree = cheapestThreeTotal <= budget;
+
+      const sortedCombos = [...combos].sort((a, b) => b.leftover - a.leftover);
+      const comboList = sortedCombos.map(
+        combo => `${combo.pair}: ${toCurrency(combo.total)} (leftover ${toCurrency(combo.leftover)})`
+      );
+
+      const threeItemSummary = Number.isFinite(cheapestThreeTotal)
+        ? `Most affordable three-item bundle costs ${toCurrency(cheapestThreeTotal)} ⇒ ${
+            canBuyThree ? 'within budget' : 'over budget (cannot buy three).'
+          }`
+        : 'No three-item combinations available to evaluate.';
 
       const solutionSteps = [
-        `Most affordable three-item bundle costs ${toCurrency(threeItemTotal)} ⇒ ${canBuyThree ? 'within budget' : 'over budget (cannot buy three).'}`,
+        threeItemSummary,
         `Two-item combos within budget:${comboList.length ? '' : ' none.'}`,
         ...comboList.map(text => text)
       ];
@@ -251,7 +269,9 @@ Can you buy three items without going over budget? Which two-item combos fit bes
         contextLine: 'Convention strategy • Budgeting collectibles and gear',
         prompt,
         solution: `${formatList(solutionSteps)}`,
-        finalAnswer: `${canBuyThree ? 'Andrew can stretch to three items.' : 'No three-item combo fits the budget.'} Best two-item choice leaves ${toCurrency(comboList[0]?.leftover ?? 0)} remaining.`,
+        finalAnswer: `${
+          canBuyThree ? 'Andrew can stretch to three items.' : 'No three-item combo fits the budget.'
+        } Best two-item choice leaves ${toCurrency(sortedCombos[0]?.leftover ?? 0)} remaining.`,
         whyItMatters:
           'Conventions mix impulse buys with production tools—budget planning keeps indie creators funded.',
         extension
